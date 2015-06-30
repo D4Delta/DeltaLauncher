@@ -17,4 +17,19 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>delta-repo</id>
+            <url>ftp://deltarepo.olympe.in</url>
+        </repository>
+    </distributionManagement>
+    <build>
+        <extensions>
+            <extension>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ftp</artifactId>
+              <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
+    </build>
 </project>

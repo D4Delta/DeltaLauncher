@@ -26,7 +26,7 @@ import java.net.URL;
  * The PrintCallback is basic callback that will send feedback in a given PrintStream.
  * @author d4delta
  */
-public class PrintCallback implements Callback {
+public class PrintCallback extends Callback {
 
     final PrintStream err;
     final PrintStream out;
@@ -93,7 +93,7 @@ public class PrintCallback implements Callback {
     @Override
     public String[] addingPropertyNotification(String key, String value) {
         out.println("Adding property : " + key + " > " + value);
-        return new String[] {key, value};
+        return super.addingPropertyNotification(key, value);
     }
 
     @Override

@@ -23,44 +23,42 @@ import java.net.URL;
 
 /**
  * The callback interface is used by DeltaLauncher to send feedback to the main program.
- * You may implements your own callback directly from this class, 
- * however I recommend to extend PrintCallback instead, because you
- * don't need to implement all the methods in 99% of the case
+ * It's like a "bridge" between DeltaLauncher and your gui. 
  * @author d4delta
  */
-public interface Callback {
+public class Callback {
     
     //ERRORS
     
-    public void dependecyUnavailableError(Dependency dependecy);
+    public void dependecyUnavailableError(Dependency dependecy) {};
     
-    public void downloadError(IOException cause, URL originURL, File destination);
+    public void downloadError(IOException cause, URL originURL, File destination) {};
    
-    public boolean equalVerificationError(URL urlToCompare, File fileToCompare, IOException cause);
+    public boolean equalVerificationError(URL urlToCompare, File fileToCompare, IOException cause) {return false;};
     
-    public void pomLoadError(Dependency dependecy, Exception cause);
+    public void pomLoadError(Dependency dependecy, Exception cause) {};
     
-    public void mainClassInvocationError(Exception cause, String mainClass);
+    public void mainClassInvocationError(Exception cause, String mainClass) {};
     
     //NOTIFICATIONS
     
-    public void noMainClassNotification();
+    public void noMainClassNotification() {};
     
-    public void readyToLaunchNotification(String mainClassPath, Class mainClass, Method main);
+    public void readyToLaunchNotification(String mainClassPath, Class mainClass, Method main) {};
     
-    public void downloadStateNotification(URL origin, File destination, long fileSize, long downloaded);
+    public void downloadStateNotification(URL origin, File destination, long fileSize, long downloaded) {};
     
-    public void addingRepositoryNotification(String id, String url);
+    public void addingRepositoryNotification(String id, String url) {};
     
-    public String[] addingPropertyNotification(String key, String value);
+    public String[] addingPropertyNotification(String key, String value) {return new String[] {key, value};};
     
-    public void loadingDependecyNotification(Dependency dependecy);
+    public void loadingDependecyNotification(Dependency dependecy) {};
     
-    public void dependecyNotFoundInLocalRepo(Dependency dependecy);
+    public void dependecyNotFoundInLocalRepo(Dependency dependecy) {};
     
-    public void dependecyJarNotification(Dependency notification);
+    public void dependecyJarNotification(Dependency notification) {};
     
-    public void dependecyNativeNotification(Dependency dependecy);
+    public void dependecyNativeNotification(Dependency dependecy) {};
     
-    public void dependecyChecksumIncorrectNotification(Dependency dependecy, String checkSumType);
+    public void dependecyChecksumIncorrectNotification(Dependency dependecy, String checkSumType) {};
 }

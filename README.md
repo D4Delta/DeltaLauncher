@@ -1,2 +1,5 @@
-# DeltaLauncher
-DeltaLauncher is an api that provide classes for updating software, like a game for example.
+# What is DeltaLauncher ?
+
+DeltaLauncher is an updating framework designed to be simple and usefull. It's simple : you create your own gui, you setup your own repository, and you give your launcher to the users.
+
+

@@ -15,11 +15,11 @@ Create a new maven project, and then edit your pom.xml to add my repository, and
 	</repositories>
 
 	<dependencies>
-		<dependecy>
+		<dependency>
 			<groupId>fr.d4delta</groupId>
 			<artifactId>DeltaLauncher</artifactId>
 			<version>1.0.0</version>
-		</dependecy>
+		</dependency>
 	</dependencies>
 </project>
 ```

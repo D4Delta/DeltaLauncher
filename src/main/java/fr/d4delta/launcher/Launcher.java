@@ -218,6 +218,10 @@ public class Launcher extends Thread {
         
         Dependency dependecy = new Dependency(reference, rootFolder, callback, namespace);
         
+        if(isLoaded.get(dependecy.groupId + dependecy.artifactId + dependecy.version) != null) {
+            return;
+        }
+        
         if(!findRemote(dependecy)) {
             callback.dependecyUnavailableError(dependecy);
         }
@@ -246,6 +250,7 @@ public class Launcher extends Thread {
         for(DependencyType t: types) {
             if(t.download(dependecy, pomRoot, jars, callback)) {
                 dependecy.updatePreferedRepoFile();
+                isLoaded.put(dependecy.groupId+dependecy.artifactId+dependecy.version, Boolean.TRUE);
                 loadReferences(pomRoot, namespace);
                 return;
             }

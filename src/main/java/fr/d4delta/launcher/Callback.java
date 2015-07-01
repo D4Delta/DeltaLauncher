@@ -22,8 +22,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 /**
- * The callback interface is used by DeltaLauncher to send feedback to the main program.
- * It's like a "bridge" between DeltaLauncher and your gui. 
+ * The callback class is used by DeltaLauncher to send feedback to the main program.
+ * It act like a "bridge" between DeltaLauncher and your gui. 
  * @author d4delta
  */
 public class Callback {

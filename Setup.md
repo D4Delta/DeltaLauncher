@@ -26,7 +26,7 @@ Create a new maven project, and then edit your pom.xml to add my repository, and
 Clean and build the project, and you should see DeltaLauncher in the list of the dependecies.
 
 #### Creating the launcher
-Your launcher can contains all you wants : 3d stuff, a web page, or even nothing at all : It just have to create a new Launcher instance, and launch it using the `run()` method if you want to launch it on the same thread, or the `start()` method if you need to launch it on a separate thread.
+Your launcher can contains all you wants : 3d stuff, a web page, or even nothing at all : It just had to create a new Launcher instance, and launch it using the `run()` method if you want to launch it on the same thread, or the `start()` method if you need to launch it on a separate thread.
 
 To have feedback about what DeltaLauncher is doing, implements your own Callback. For example this callback will show up a dialog when the update process is done:
 ```java
@@ -56,7 +56,7 @@ To update your application, your have to create your own repository and deploy y
 First you have to get a ftp. There is a lot of free ftp on internet, just search for the one that fit you.
 
 Now you have to deploy your application on this ftp.
-Just edit your application pom.xml, and add your ftp server:
+Just edit your application's pom.xml, and add your ftp server:
 
 ```xml
 <project>
@@ -104,7 +104,7 @@ Congratulations ! You now have your own maven repository. Now we have to create 
 
 ####Creating the main pom
 
-First, what is the main pom ? The main pom is a xml file that contains the data needed by delta launcher to download your application : Your repository, and your application groupId and artifactId. I recommend uploading this file on a ftp (it can be your repository ftp), but if you want you can directly add it to your project, and load it using ```getResourceAsStream("mainpom.xml")```.
+First, what is the main pom ? The main pom is a xml file that contains the data needed by delta launcher to download your application : Your repository, and your application's groupId and artifactId. I recommend uploading this file on a ftp (it can be your repository ftp), but if you want, you can directly add it to your project, and load it using ```getResourceAsStream("mainpom.xml")```.
 
 But let's create that pom :
 
@@ -145,13 +145,11 @@ public class Launcher {
 	}
 }
 ```
+(Replace "http://yourftp.com/mainpom.xml" by your main pom link)
 
 Your launcher should now work without problem: If you redeploy your application and if there is change in the newly deployed application,  the users will download the new version when the launcher start. (Awesome isn't it ?). 
 
 Also, note that not only your application is updated : All your application's dependencies are also updated. It's means if there is a major security leak in one of your dependencies, the client will download the updated version automatically.
 
 #### Contact
-You can contact me on [d4delta@outlook.fr](d4delta@outlook.fr): if you got a problem, or even if you don't, you can send feedback about this api.
-
-
-
+You can send feedback to [d4delta@outlook.fr](d4delta@outlook.fr)

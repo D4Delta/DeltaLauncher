@@ -53,13 +53,6 @@ public class PrintCallback extends Callback {
     }
 
     @Override
-    public boolean equalVerificationError(URL urlToCompare, File fileToCompare, IOException cause) {
-        err.println("Error while comparing " + urlToCompare + " with " + fileToCompare + ":");
-        cause.printStackTrace(System.err);
-        return false;
-    }
-
-    @Override
     public void pomLoadError(Dependency dependecy, Exception cause) {
         err.println(dependecy + " POM file is not a valid xml file:");
         cause.printStackTrace(err);

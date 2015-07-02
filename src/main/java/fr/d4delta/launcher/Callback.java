@@ -39,8 +39,6 @@ public class Callback {
         //The program could continue to run, but in the most of the case it lead to an other exception, So by default the program stop.
         throw new RuntimeException(cause);
     };
-   
-    public boolean equalVerificationError(URL urlToCompare, File fileToCompare, IOException cause) {return false;};
     
     public void pomLoadError(Dependency dependecy, Exception cause) {
         //The program will continue to update even if the pom is an incorrect xml file. To stop the program just throw a new RuntimeException.

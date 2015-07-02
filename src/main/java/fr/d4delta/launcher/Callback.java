@@ -35,11 +35,16 @@ public class Callback {
         //The program will continue to update even if one dependecy is unavailable. To stop the program, just throw a new RuntimeException.
     };
     
-    public void downloadError(IOException cause, URL originURL, File destination) {};
+    public void downloadError(IOException cause, URL originURL, File destination) {
+        //The program could continue to run, but in the most of the case it lead to an other exception, So by default the program stop.
+        throw new RuntimeException(cause);
+    };
    
     public boolean equalVerificationError(URL urlToCompare, File fileToCompare, IOException cause) {return false;};
     
-    public void pomLoadError(Dependency dependecy, Exception cause) {};
+    public void pomLoadError(Dependency dependecy, Exception cause) {
+        //The program will continue to update even if the pom is an incorrect xml file. To stop the program just throw a new RuntimeException.
+    };
     
     public void mainClassInvocationError(Exception cause, String mainClass) {};
     

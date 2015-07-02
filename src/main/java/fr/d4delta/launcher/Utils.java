@@ -163,17 +163,4 @@ public class Utils {
         }
        
     }
-    
-    //DEBUG: TO DELETE IN FINAL VERSION
-    public static void recursivePrint(String path, Element el) {
-        List<Element> childrens = el.getChildren();
-        path += "/" + el.getName();
-        if(childrens.isEmpty()) {
-            System.out.println(path + " > " + el.getValue());
-        } else {
-            for(Element e: childrens) {
-                recursivePrint(path, e);
-            }
-        }
-    }
 }

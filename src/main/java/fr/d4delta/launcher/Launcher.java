@@ -222,16 +222,16 @@ public class Launcher extends Thread {
             return;
         }
         
-        callback.loadingdependencyNotification(dependency);
+        callback.loadingDependencyNotification(dependency);
         
         if(!findRemote(dependency)) {
             callback.dependencyUnavailableError(dependency);
         } else {
-            downloaddependency(dependency);
+            downloadDependency(dependency);
         }
     }
     
-    private void downloaddependency(Dependency dependency)  {
+    private void downloadDependency(Dependency dependency)  {
         
         dependency.downloadPom();
         

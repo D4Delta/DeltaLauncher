@@ -58,7 +58,7 @@ public class Callback {
     
     public String[] addingPropertyNotification(String key, String value) {return new String[] {key, value};};
     
-    public void loadingdependencyNotification(Dependency dependency) {};
+    public void loadingDependencyNotification(Dependency dependency) {};
     
     public void dependencyJarNotification(Dependency notification) {};
     

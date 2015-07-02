@@ -91,7 +91,7 @@ public class PrintCallback extends Callback {
     }
 
     @Override
-    public void loadingdependencyNotification(Dependency dependency) {
+    public void loadingDependencyNotification(Dependency dependency) {
         out.println("Loading " + dependency + "...");
     }
     

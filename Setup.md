@@ -69,7 +69,7 @@ Just edit your application's pom.xml, and add your ftp server:
 		</repository>
 	</distributionManagement>
 
-	<!-->This will enable the ftp support on your dependecy.<-->
+	<!-->This will enable the ftp support on your dependency.<-->
 	<build>
 		<extensions>
 			<extension>

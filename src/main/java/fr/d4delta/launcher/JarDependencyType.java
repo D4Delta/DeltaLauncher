@@ -24,7 +24,7 @@ import java.util.List;
 import org.jdom2.Element;
 
 /**
- * The jar dependency type will try to download a jar dependecy, and add the jar to the classpath for loading.
+ * The jar dependency type will try to download a jar dependency, and add the jar to the classpath for loading.
  * @author d4delta
  */
 public class JarDependencyType implements DependencyType {
@@ -32,7 +32,7 @@ public class JarDependencyType implements DependencyType {
     public static final String jarExt = ".jar";
     
     @Override
-    public boolean download(Dependency dependecy, Element rootPom, List<URL> loader, Callback callback) {
+    public boolean download(Dependency dependency, Element rootPom, List<URL> loader, Callback callback) {
         
         URL remoteJarURL = null;
         
@@ -44,12 +44,12 @@ public class JarDependencyType implements DependencyType {
         
         try {
             
-            remoteJarURL = new URL(dependecy.remoteFolderURL + dependecy.baseString + jarExt);
+            remoteJarURL = new URL(dependency.remoteFolderURL + dependency.baseString + jarExt);
             
-            remoteJarMD5URL = new URL(dependecy.remoteFolderURL + dependecy.baseString + jarExt + Dependency.md5Ext);
+            remoteJarMD5URL = new URL(dependency.remoteFolderURL + dependency.baseString + jarExt + Dependency.md5Ext);
             jarHasMD5 = !Utils.is404(remoteJarMD5URL);
             
-            remoteJarSHA1URL = new URL(dependecy.remoteFolderURL + dependecy.baseString + jarExt + Dependency.sha1Ext);
+            remoteJarSHA1URL = new URL(dependency.remoteFolderURL + dependency.baseString + jarExt + Dependency.sha1Ext);
             jarHasSHA1 = !Utils.is404(remoteJarSHA1URL);
             
             if(Utils.is404(remoteJarURL))
@@ -59,13 +59,15 @@ public class JarDependencyType implements DependencyType {
             return false;
         }
         
-        File jar = new File(dependecy.folder, dependecy.baseString + jarExt);
-        File jarMD5 = new File(dependecy.folder, dependecy.baseString + jarExt + Dependency.md5Ext);
-        File jarSHA1 = new File(dependecy.folder, dependecy.baseString + jarExt + Dependency.sha1Ext);
-
+        File jar = new File(dependency.folder, dependency.baseString + jarExt);
+        File jarMD5 = new File(dependency.folder, dependency.baseString + jarExt + Dependency.md5Ext);
+        File jarSHA1 = new File(dependency.folder, dependency.baseString + jarExt + Dependency.sha1Ext);
+        
+        callback.dependencyJarNotification(dependency);
+        
         if(!jar.exists() || (jarHasMD5 && !Utils.equals(remoteJarMD5URL, jarMD5)) || (jarHasSHA1 && !Utils.equals(remoteJarSHA1URL, jarSHA1))) {
             
-            dependecy.folder.mkdirs();
+            dependency.folder.mkdirs();
             jar.delete();
             Utils.downloadURL(remoteJarURL, jar, callback);
             

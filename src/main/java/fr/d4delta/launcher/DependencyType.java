@@ -22,12 +22,12 @@ import java.util.List;
 import org.jdom2.Element;
 
 /**
- * A DependecyType is a class that will try to download a dependency.
- * For example, the jar dependecy type will try to download the dependency if it's a jar.
+ * A dependencyType is a class that will try to download a dependency.
+ * For example, the jar dependency type will try to download the dependency if it's a jar.
  * @author d4delta
  */
 public interface DependencyType {
     
-    public boolean download(Dependency dependecy, Element rootPom, List<URL> loader, Callback callback);
+    public boolean download(Dependency dependency, Element rootPom, List<URL> loader, Callback callback);
 
 }

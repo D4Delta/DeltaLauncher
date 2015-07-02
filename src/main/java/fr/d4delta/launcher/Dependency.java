@@ -30,8 +30,8 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * The dependecy class contains information about a dependecy reference, and some methods to interact with it.
- * You can retrieve information about the dependecy, like the groupId, the version, the pom file, or if the remote dependecy support sha1 for example.
+ * The dependency class contains information about a dependency reference, and some methods to interact with it.
+ * You can retrieve information about the dependency, like the groupId, the version, the pom file, or if the remote dependency support sha1 for example.
  * @author d4delta
  */
 public class Dependency {

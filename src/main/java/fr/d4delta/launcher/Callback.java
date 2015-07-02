@@ -31,8 +31,8 @@ public class Callback {
     
     //ERRORS
     
-    public void dependecyUnavailableError(Dependency dependecy) {
-        //The program will continue to update even if one dependecy is unavailable. To stop the program, just throw a new RuntimeException.
+    public void dependencyUnavailableError(Dependency dependency) {
+        //The program will continue to update even if one dependency is unavailable. To stop the program, just throw a new RuntimeException.
     };
     
     public void downloadError(IOException cause, URL originURL, File destination) {
@@ -40,7 +40,7 @@ public class Callback {
         throw new RuntimeException(cause);
     };
     
-    public void pomLoadError(Dependency dependecy, Exception cause) {
+    public void pomLoadError(Dependency dependency, Exception cause) {
         //The program will continue to update even if the pom is an incorrect xml file. To stop the program just throw a new RuntimeException.
     };
     
@@ -58,13 +58,9 @@ public class Callback {
     
     public String[] addingPropertyNotification(String key, String value) {return new String[] {key, value};};
     
-    public void loadingDependecyNotification(Dependency dependecy) {};
+    public void loadingdependencyNotification(Dependency dependency) {};
     
-    public void dependecyNotFoundInLocalRepo(Dependency dependecy) {};
+    public void dependencyJarNotification(Dependency notification) {};
     
-    public void dependecyJarNotification(Dependency notification) {};
-    
-    public void dependecyNativeNotification(Dependency dependecy) {};
-    
-    public void dependecyChecksumIncorrectNotification(Dependency dependecy, String checkSumType) {};
+    public void dependencyNativeNotification(Dependency dependency) {};
 }

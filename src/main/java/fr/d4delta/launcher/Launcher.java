@@ -185,19 +185,19 @@ public class Launcher extends Thread {
         }
     }
     
-    private boolean findRemote(Dependency dependecy) {
+    private boolean findRemote(Dependency dependency) {
         
-        String preferedId = dependecy.getPreferedRepoId();
+        String preferedId = dependency.getPreferedRepoId();
         if(preferedId != null) {
             Repository preferedRepo = repositories.get(preferedId);
-            if(preferedRepo != null && dependecy.genRemoteURLS(preferedRepo)) {
+            if(preferedRepo != null && dependency.genRemoteURLS(preferedRepo)) {
                 return true;
             }
         }
         
         Set<Entry<String,Repository>> entries = repositories.entrySet();
         for(Entry<String, Repository> e: entries) {
-            if(dependecy.genRemoteURLS(e.getValue())) {
+            if(dependency.genRemoteURLS(e.getValue())) {
                 return true;
             }
         }
@@ -216,29 +216,31 @@ public class Launcher extends Thread {
                 return;
         }
         
-        Dependency dependecy = new Dependency(reference, rootFolder, callback, namespace);
+        Dependency dependency = new Dependency(reference, rootFolder, callback, namespace);
         
-        if(isLoaded.get(dependecy.groupId + dependecy.artifactId + dependecy.version) != null) {
+        if(isLoaded.get(dependency.groupId + dependency.artifactId + dependency.version) != null) {
             return;
         }
         
-        if(!findRemote(dependecy)) {
-            callback.dependecyUnavailableError(dependecy);
+        callback.loadingdependencyNotification(dependency);
+        
+        if(!findRemote(dependency)) {
+            callback.dependencyUnavailableError(dependency);
         } else {
-            downloadDependecy(dependecy);
+            downloaddependency(dependency);
         }
     }
     
-    private void downloadDependecy(Dependency dependecy)  {
+    private void downloaddependency(Dependency dependency)  {
         
-        dependecy.downloadPom();
+        dependency.downloadPom();
         
         Element pomRoot;
         try {
-            pomRoot = new SAXBuilder().build(dependecy.pom).getRootElement();
+            pomRoot = new SAXBuilder().build(dependency.pom).getRootElement();
         } catch (JDOMException | IOException ex) {
-            callback.pomLoadError(dependecy, ex);
-            Utils.purge(dependecy.folder);
+            callback.pomLoadError(dependency, ex);
+            Utils.purge(dependency.folder);
             return;
         }
         Namespace namespace = pomRoot.getNamespace();
@@ -248,9 +250,9 @@ public class Launcher extends Thread {
         registerRepositories(pomRoot, namespace);
         
         for(DependencyType t: types) {
-            if(t.download(dependecy, pomRoot, jars, callback)) {
-                dependecy.updatePreferedRepoFile();
-                isLoaded.put(dependecy.groupId+dependecy.artifactId+dependecy.version, Boolean.TRUE);
+            if(t.download(dependency, pomRoot, jars, callback)) {
+                dependency.updatePreferedRepoFile();
+                isLoaded.put(dependency.groupId+dependency.artifactId+dependency.version, Boolean.TRUE);
                 loadReferences(pomRoot, namespace);
                 return;
             }

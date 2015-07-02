@@ -42,8 +42,8 @@ public class PrintCallback extends Callback {
     }
     
     @Override
-    public void dependecyUnavailableError(Dependency dependecy) {
-        err.println(dependecy + " is unavailable in the repositories.");
+    public void dependencyUnavailableError(Dependency dependency) {
+        err.println(dependency + " is unavailable in the repositories.");
     }
 
     @Override
@@ -53,8 +53,8 @@ public class PrintCallback extends Callback {
     }
 
     @Override
-    public void pomLoadError(Dependency dependecy, Exception cause) {
-        err.println(dependecy + " POM file is not a valid xml file:");
+    public void pomLoadError(Dependency dependency, Exception cause) {
+        err.println(dependency + " POM file is not a valid xml file:");
         cause.printStackTrace(err);
     }
 
@@ -91,27 +91,17 @@ public class PrintCallback extends Callback {
     }
 
     @Override
-    public void loadingDependecyNotification(Dependency dependecy) {
-        out.println("Loading " + dependecy + "...");
+    public void loadingdependencyNotification(Dependency dependency) {
+        out.println("Loading " + dependency + "...");
     }
-
+    
     @Override
-    public void dependecyNotFoundInLocalRepo(Dependency dependecy) {
-        out.println(dependecy + " hasn't been found in the local folder. Fetching from remote...");
-    }
-
-    @Override
-    public void dependecyJarNotification(Dependency notification) {
+    public void dependencyJarNotification(Dependency notification) {
         out.println(notification + " is a jar library.");
     }
 
     @Override
-    public void dependecyNativeNotification(Dependency dependecy) {
-        out.println(dependecy + "Dependecy is a native.");
+    public void dependencyNativeNotification(Dependency dependency) {
+        out.println(dependency + "dependency is a native.");
     }
-
-    @Override
-    public void dependecyChecksumIncorrectNotification(Dependency dependecy, String checkSumType) {
-        out.println(dependecy + "checksum (" + checkSumType + ")" + " differ from remote's checksum. Redownloading...");
-    }   
 }

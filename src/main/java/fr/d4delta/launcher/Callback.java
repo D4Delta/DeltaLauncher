@@ -24,14 +24,16 @@ import java.net.URL;
 
 /**
  * The callback class is used by DeltaLauncher to send feedback to the main program.
- * It act like a "bridge" between DeltaLauncher and your gui. 
+ * It act like a "bridge" between DeltaLauncher and your gui.
  * @author d4delta
  */
 public class Callback {
     
     //ERRORS
     
-    public void dependecyUnavailableError(Dependency dependecy) {};
+    public void dependecyUnavailableError(Dependency dependecy) {
+        //The program will continue to update even if one dependecy is unavailable. To stop the program, just throw a new RuntimeException.
+    };
     
     public void downloadError(IOException cause, URL originURL, File destination) {};
    
@@ -43,7 +45,7 @@ public class Callback {
     
     //NOTIFICATIONS
     
-    public void noMainClassNotification() {};
+    public void noMainClassError() {};
     
     public void readyToLaunchNotification(String mainClassPath, Class mainClass, Method main) {};
     

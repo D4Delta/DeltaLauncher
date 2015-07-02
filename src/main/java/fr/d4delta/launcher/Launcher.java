@@ -129,7 +129,7 @@ public class Launcher extends Thread {
         URLClassLoader loader = new URLClassLoader(jars.toArray(new URL[jars.size()]));
         String mainClassPath = System.getProperty("delta.launcher.main");
         if(mainClassPath == null) {
-            callback.noMainClassNotification();
+            callback.noMainClassError();
         } else {
             try {
                 Class mainClass = Class.forName(mainClassPath, true, loader);
@@ -224,9 +224,9 @@ public class Launcher extends Thread {
         
         if(!findRemote(dependecy)) {
             callback.dependecyUnavailableError(dependecy);
+        } else {
+            downloadDependecy(dependecy);
         }
-        
-        downloadDependecy(dependecy);
     }
     
     private void downloadDependecy(Dependency dependecy)  {

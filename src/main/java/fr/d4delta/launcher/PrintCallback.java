@@ -66,7 +66,7 @@ public class PrintCallback extends Callback {
     }
 
     @Override
-    public void noMainClassNotification() {
+    public void noMainClassError() {
         err.println("Main is not defined. Check that you defined the \"delta.launcher.main\" property in your main pom file.");
     }
 

@@ -64,7 +64,8 @@ public class Launcher extends Thread {
         root = new SAXBuilder().build(source).getRootElement();
         rootFolder.mkdirs();
         
-        //Default types initialization
+        //Adding only the dependency type that will not throw exception: 
+        //If you want for example maven native support, add it to the types manually before launching the Launcher
         types.add(new JarDependencyType(args));
     }
     
@@ -120,7 +121,7 @@ public class Launcher extends Thread {
     }
     
     private void launch() {
-        for(int i = types.size(); i > 0; i--) {
+        for(int i = types.size()-1; i >= 0; i--) {
             types.get(i).done(callback, types);
         }
     }

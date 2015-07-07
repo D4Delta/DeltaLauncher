@@ -79,6 +79,8 @@ public class NativeDependencyType extends DependencyType{
         boolean hasMD5 = !Utils.is404(remotePackMD5URL);
         boolean hasSHA1 = !Utils.is404(remotePackSHA1URL);
         
+        callback.dependencyNativeNotification(dependency);
+        
         //File packFile = new File(dependency.folder, baseString + JarDependencyType.jarExt);
         File packMD5File = new File(dependency.folder, baseString + JarDependencyType.jarExt + Dependency.md5Ext);
         File packSHA1File = new File(dependency.folder, baseString + JarDependencyType.jarExt + Dependency.sha1Ext);
@@ -104,21 +106,27 @@ public class NativeDependencyType extends DependencyType{
                 ZipEntry entry;
                 while((entry = zipPackIn.getNextEntry()) != null) {
                     File outFile = new File(extractedPack, entry.getName());
-                    outFile.getParentFile().mkdirs();
-                    try(FileOutputStream out = new FileOutputStream(outFile)) {
-                        int read;
-                        byte[] buffer = new byte[Utils.downloadBufferSize];
-                        while ((read = zipPackIn.read(buffer)) > 0) {
-                            out.write(buffer, 0, read);
+                    
+                    if(entry.isDirectory()) {
+                        outFile.mkdirs();
+                    } else {
+                        outFile.getParentFile().mkdirs();
+                        try(FileOutputStream out = new FileOutputStream(outFile)) {
+                            int read;
+                            byte[] buffer = new byte[Utils.downloadBufferSize];
+                            while ((read = zipPackIn.read(buffer)) > 0) {
+                                out.write(buffer, 0, read);
+                            }
                         }
                     }
+                    
                 }
             } catch (IOException ex) {
                 callback.extractException(dependency, remotePackURL, extractedPack, ex);
             }
-            
-            addToPath(extractedPack.getPath());
         }
+               
+        addToPath(extractedPack.getPath());
         
         return true;
     }

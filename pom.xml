@@ -20,7 +20,7 @@
     <distributionManagement>
         <repository>
             <id>delta-repo</id>
-            <url>ftp://deltarepo.olympe.in</url>
+            <url>ftp://ftp.olympe.in</url>
         </repository>
     </distributionManagement>
     <build>

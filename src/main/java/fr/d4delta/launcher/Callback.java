@@ -36,7 +36,7 @@ public class Callback {
     };
     
     public void downloadError(IOException cause, URL originURL, File destination) {
-        //The program could continue to run, but in the most of the case it lead to an other exception, So by default the program stop.
+        //The program could continue to run, but in the most of the cases it lead to an other exception, So by default the program stop.
         throw new RuntimeException(cause);
     };
     
@@ -44,11 +44,17 @@ public class Callback {
         //The program will continue to update even if the pom is an incorrect xml file. To stop the program just throw a new RuntimeException.
     };
     
+    public void extractException(Dependency dependency, URL remotePackURL, File extractFolder, IOException cause) {                                                           
+        //The program will continue to run and clean the extracted                                                                                                                                                                                                                                                                                                                                                                  
+    }
+    
     public void mainClassInvocationError(Exception cause, String mainClass) {};
     
-    //NOTIFICATIONS
-    
     public void noMainClassError() {};
+    
+    public void nativeHackError(NativeHackException exception) {}
+    
+    //NOTIFICATIONS
     
     public void readyToLaunchNotification(String mainClassPath, Class mainClass, Method main) {};
     

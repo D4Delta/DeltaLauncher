@@ -22,12 +22,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
 import java.util.regex.Pattern;
-import org.jdom2.Element;
 
 /**
  * The utils class contains stuff that I use for DeltaLauncher.
@@ -37,14 +36,13 @@ import org.jdom2.Element;
 public class Utils {
 
     public static void purge(File file) {
-        if (file.isFile()) {
-            file.delete();
-        } else if (file.isDirectory()) {
+        if(file.isDirectory()) {
             File[] files = file.listFiles();
             for (File f : files) {
                 purge(f);
             }
         }
+        file.delete();
     }
     
     public static boolean is404(URL url) {
@@ -146,6 +144,16 @@ public class Utils {
             String property = System.getProperty(var.substring(startVar.length()), "");
             return str.replaceAll(Pattern.quote(var + endVar), property);
         }
+    }
+    
+    //From http://stackoverflow.com/questions/80476/how-to-concatenate-two-arrays-in-java
+    public static <T> T[] concatenate(T[] a, T[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen+bLen);
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+        return c;
     }
     
     public static String OS;

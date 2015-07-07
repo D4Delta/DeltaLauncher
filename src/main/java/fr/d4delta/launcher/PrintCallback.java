@@ -42,6 +42,18 @@ public class PrintCallback extends Callback {
     }
     
     @Override
+    public void nativeHackError(NativeHackException exception) {
+        err.println("Exception while trying to add a native path to the vm :");
+        exception.printStackTrace(err);
+    }
+    
+    @Override
+    public void extractException(Dependency dependency, URL remotePackURL, File extractFolder, IOException cause) {                                                           
+        err.println("Exception while downloading " + dependency + ". Cannot extract " + remotePackURL + " to " + extractFolder + ":");
+        cause.printStackTrace(err);
+    }
+    
+    @Override
     public void dependencyUnavailableError(Dependency dependency) {
         err.println(dependency + " is unavailable in the repositories.");
     }

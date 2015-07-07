@@ -20,10 +20,6 @@ package fr.d4delta.launcher;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,8 +36,6 @@ import org.jdom2.input.SAXBuilder;
  * @author d4delta
  */
 public class Launcher extends Thread {
-    
-    private final List<URL> jars = new LinkedList<>();
     
     private final File rootFolder;
     private final Callback callback;
@@ -71,7 +65,7 @@ public class Launcher extends Thread {
         rootFolder.mkdirs();
         
         //Default types initialization
-        types.add(new JarDependencyType());
+        types.add(new JarDependencyType(args));
     }
     
     /**
@@ -126,19 +120,8 @@ public class Launcher extends Thread {
     }
     
     private void launch() {
-        URLClassLoader loader = new URLClassLoader(jars.toArray(new URL[jars.size()]));
-        String mainClassPath = System.getProperty("delta.launcher.main");
-        if(mainClassPath == null) {
-            callback.noMainClassError();
-        } else {
-            try {
-                Class mainClass = Class.forName(mainClassPath, true, loader);
-                Method main = mainClass.getMethod("main", String[].class);
-                callback.readyToLaunchNotification(mainClassPath, mainClass, main);
-                main.invoke(null, (Object) args);
-            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                callback.mainClassInvocationError(ex, mainClassPath);
-            } 
+        for(int i = types.size(); i > 0; i--) {
+            types.get(i).done(callback, types);
         }
     }
     
@@ -250,7 +233,7 @@ public class Launcher extends Thread {
         registerRepositories(pomRoot, namespace);
         
         for(DependencyType t: types) {
-            if(t.download(dependency, pomRoot, jars, callback)) {
+            if(t.download(dependency, pomRoot, callback)) {
                 dependency.updatePreferedRepoFile();
                 isLoaded.put(dependency.groupId+dependency.artifactId+dependency.version, Boolean.TRUE);
                 loadReferences(pomRoot, namespace);

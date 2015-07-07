@@ -17,7 +17,6 @@
 
 package fr.d4delta.launcher;
 
-import java.net.URL;
 import java.util.List;
 import org.jdom2.Element;
 
@@ -26,8 +25,20 @@ import org.jdom2.Element;
  * For example, the jar dependency type will try to download the dependency if it's a jar.
  * @author d4delta
  */
-public interface DependencyType {
+public abstract class DependencyType {
+    /**
+     * This method will try to use the DependencyType for a dependency.
+     * @param dependency The dependency you should test & download.
+     * @param rootPom The root element of the dependency's xml
+     * @param callback The callback of the launcher
+     * @return If the dependency belong to this type
+     */
+    public abstract boolean download(Dependency dependency, Element rootPom, Callback callback);
     
-    public boolean download(Dependency dependency, Element rootPom, List<URL> loader, Callback callback);
-
+    /**
+     * This method will be called when there is no more dependency to download.
+     * @param callback The callback of the launcher.
+     * @param dependencyTypes The dependency types of the launcher, to interact with them for example. 
+     */
+    public void done(Callback callback, List<DependencyType> dependencyTypes) {};
 }

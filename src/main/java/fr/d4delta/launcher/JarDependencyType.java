@@ -18,8 +18,12 @@
 package fr.d4delta.launcher;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.LinkedList;
 import java.util.List;
 import org.jdom2.Element;
 
@@ -27,12 +31,20 @@ import org.jdom2.Element;
  * The jar dependency type will try to download a jar dependency, and add the jar to the classpath for loading.
  * @author d4delta
  */
-public class JarDependencyType implements DependencyType {
-
+public class JarDependencyType extends DependencyType {
+    
+    public final String[] args;
+    
+    public JarDependencyType(String[] args) {
+        this.args = args;
+    }
+    
     public static final String jarExt = ".jar";
     
+    public List<URL> jarToLoad = new LinkedList<>();
+    
     @Override
-    public boolean download(Dependency dependency, Element rootPom, List<URL> loader, Callback callback) {
+    public boolean download(Dependency dependency, Element rootPom, Callback callback) {
         
         URL remoteJarURL = null;
         
@@ -67,7 +79,6 @@ public class JarDependencyType implements DependencyType {
         
         if(!jar.exists() || (jarHasMD5 && !Utils.equals(remoteJarMD5URL, jarMD5)) || (jarHasSHA1 && !Utils.equals(remoteJarSHA1URL, jarSHA1))) {
             
-            dependency.folder.mkdirs();
             jar.delete();
             Utils.downloadURL(remoteJarURL, jar, callback);
             
@@ -85,9 +96,27 @@ public class JarDependencyType implements DependencyType {
         }
         
         try {
-            loader.add(jar.toURI().toURL());
+            jarToLoad.add(jar.toURI().toURL());
         } catch (MalformedURLException ex) {}
         
         return true;
+    }
+
+    @Override
+    public void done(Callback callback, List<DependencyType> dependenciesTypes) {
+        URLClassLoader loader = new URLClassLoader(jarToLoad.toArray(new URL[jarToLoad.size()]));
+        String mainClassPath = System.getProperty("delta.launcher.main");
+        if(mainClassPath == null) {
+            callback.noMainClassError();
+        } else {
+            try {
+                Class mainClass = Class.forName(mainClassPath, true, loader);
+                Method main = mainClass.getMethod("main", String[].class);
+                callback.readyToLaunchNotification(mainClassPath, mainClass, main);
+                main.invoke(null, (Object) args);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                callback.mainClassInvocationError(ex, mainClassPath);
+            } 
+        }
     }
 }
